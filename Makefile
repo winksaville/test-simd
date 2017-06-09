@@ -14,7 +14,7 @@ OD=objdump
 ODFLAGS=-S -M  x86_64,intel
 
 LNK=$(CC)
-LNKFLAGS=-lm
+LNKFLAGS=-static -static-libgcc
 
 OUTDIR=out
 SRCDIR=src
@@ -34,6 +34,7 @@ $(OUTDIR)/test-simd.o : $(SRCDIR)/test-simd.c $(test-simd-hdr-deps)
 
 $(OUTDIR)/test-simd : $(test-simd-obj-deps)
 	$(LNK) $(LNKFLAGS) $(test-simd-obj-deps)  -o $@
+	$(OD) $(ODFLAGS) $@ > $@.asm
 
 $(OUTDIR):
 	mkdir -p $(OUTDIR)
